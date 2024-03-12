@@ -1,0 +1,73 @@
+<?php
+return [
+    'saudação' => 'Samuel baeni',
+    'validateEmailSent' => "Um e-mail contendo o código de validação foi enviado para você",
+    "notAuthorized" => "Você não possui esta autorização",
+    "saved" => "Salvar concluído com sucesso",
+    "updated" => "Modificação concluída com sucesso",
+    "deleted" => "Excluir com sucesso",
+    "statusChange" => "Status alterado com sucesso",
+    "error" => "Ocorreu um erro",
+    "userNotFound" => "Usuário não encontrado",
+    "expiredSubscription" => "Sua assinatura expirou, por favor assine novamente",
+    "idNotFound" => "ID não encontrado",
+    "alreadyVal" => "Esta conta já está validada",
+    "validated" => "A validação da sua conta foi bem-sucedida",
+    "wrongCode" => "Você digitou um código de validação errado",
+    "loginSuccess" => "Login concluído com sucesso",
+    "emailSent" => "Enviamos-lhe um código de validação através do seu endereço de e-mail",
+    "wrongPassword" => "Senha errada",
+    "wrongEmail" => "Este endereço de email não é reconhecido",
+    "passwordUsed" => "Você usou esta senha recentemente, escolha outra",
+    "wrongOldPassword" => "A senha antiga está incorreta",
+    "resetCodeSent" => "Verifique seu e-mail, enviamos um código de redefinição",
+    "expireAccess" => "Este acesso expirou, por favor comece do início",
+    'reseted' => "Sua senha foi redefinida com sucesso",
+    "authExist" => "Esta autorização já existe",
+    "gaudnameExist" => "Verifique o campo do nome do guarda porque ele já existe",
+    "catExist" => "Esta categoria já existe",
+    "mailSent" => "Mensagem enviada com sucesso",
+    "userExists" => "Este endereço de e-mail já existe",
+    "existUser" => "Este usuário já existe",
+    "accountDisabled" => "Sua conta está desativada",
+
+
+    "disableImpo" => "Você não pode desativar a conta que está usando",
+    "CompanyValidated" => "Esta empresa já está validada",
+    "caNotDelete" => "Você não pode excluir sua conta nesta empresa",
+    "CompanySuccess" => "Empresa validada com sucesso",
+    "CompanyNotValidated" => "Esta empresa não está validada",
+    "permiumMode" => "Mude para o modo premium para continuar usando o aplicativo",
+    "canPublishTen" => "Você só pode publicar 10 produtos no modo de teste, mude para o modo premium para publicar mais produtos",
+    "NotEngaged" => "Você não está envolvido nesta empresa",
+    "AttributeAxist" => "Este atributo já existe",
+    "companyDisabled" => "Esta empresa está desativada",
+    "elementExists" => "Este elemento já existe",
+    "yourOrder" => "Confirmação do seu pedido",
+    "orderPlaced" => "Pedido realizado com sucesso",
+    "minimum" => "O valor mínimo é",
+    "wrongReferal" => "O código de referência está incorreto",
+    "invoice" => "fatura",
+    "balance" => "Saldo insuficiente",
+    "withDraw" => "Sua solicitação de saque foi enviada com sucesso",
+    "companyAdresse" => "11e Rue Limete, Av des oliviers No 54, cidade província de Kinshasa",
+
+    "products" => "Produtos",
+    "price" => "Preço",
+    "quantity" => "Quantidade",
+    "amount" => "Valor",
+    "subTotal" => "Subtotal",
+    "grandTotal" => "Total Geral",
+    "shippingCost" => "Custos de entrega",
+    "paymentMethod" => "Método de pagamento",
+    "paid" => "Pago",
+    "unpaid" => "não pago",
+    "deignationCom" => "Recebimento de fundos desde a compra de um referido. Ref: ",
+    "WithDrawConfirmation" => "Confirmação de retirada"
+
+
+
+
+
+
+];
