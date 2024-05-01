@@ -18,5 +18,10 @@ class Category extends Model implements TranslatableContract
     public function events(){
         return $this->hasMany(Event::class, 'category_id', 'id');
     }
-   
+
+    public function blogs(){
+        return $this->hasMany(Blogs::class, 'category_id', 'id');
+    }
+
+
 }

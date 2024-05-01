@@ -3,6 +3,8 @@
 use App\Http\Controllers\AdressesController;
 use App\Http\Controllers\AskForController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogsController;
+use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\DashboardController;
@@ -89,7 +91,6 @@ Route::group(['middleware' => ['localization']], function () {
         Route::delete('/city/{id}', [CountriesController::class, 'destroyCity']);
 
         //utilisateurs
-
         Route::get('/users', [useController::class, 'index']);
         Route::get('/member', [useController::class, 'getUserType']);
         Route::post('/users', [useController::class, 'store']);
@@ -99,8 +100,6 @@ Route::group(['middleware' => ['localization']], function () {
         Route::delete('/users/{id}', [useController::class, 'destroy']);
 
         //settings
-
-
         Route::post('/settings/about-us', [SettingsController::class, 'storeAbout']);
         Route::post('/settings/setting', [SettingsController::class, 'storeSettings']);
         Route::post('/settings/logo', [SettingsController::class, 'storeLogos']);
@@ -112,6 +111,21 @@ Route::group(['middleware' => ['localization']], function () {
         Route::post('/adresses', [AdressesController::class, 'store']);
 
 
+        //Blogs
+        Route::get('/blogs', [BlogsController::class, 'index']);
+        Route::post('/blogs', [BlogsController::class, 'store']);
+        Route::get('/blogs/{id}', [BlogsController::class, 'edit']);
+        Route::post('/blogs/{id}', [BlogsController::class, 'update']);
+        Route::put('/blogs/{id}', [TeamController::class, 'status']);
+        Route::delete('/blogs/{id}', [TeamController::class, 'destroy']);
+
+        //Bulletins
+        Route::post('/bulletins',[BulletinController::class, 'store']);
+        Route::get('/bulletins',[BulletinController::class, 'index']);
+        Route::get('/bulletins/{id}', [BulletinController::class, 'edit']);
+        Route::post('/bulletins/{id}', [BulletinController::class, 'update']);
+        Route::put('/bulletins/{id}', [BulletinController::class, 'status']);
+        Route::delete('/bulletins/{id}', [BulletinController::class, 'destroy']);
 
         //team
 
@@ -123,7 +137,6 @@ Route::group(['middleware' => ['localization']], function () {
         Route::delete('/team/{id}', [TeamController::class, 'destroy']);
 
         //events
-
         Route::get('/events', [EventController::class, 'index']);
         Route::post('/events', [EventController::class, 'store']);
         Route::get('/events/{id}', [EventController::class, 'edit']);

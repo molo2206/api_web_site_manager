@@ -72,7 +72,7 @@ class LivresController extends Controller
             $book = Livres::where('deleted', 0)->find($id);
             if ($book) {
                 if ($request->file) {
-                    $file = MethodsController::uploadDoc($request, $request->title, '/uploads/doc/');
+                    $file = MethodsController::uploadDoc($request, $request->title, '/uploads/doc/',$request->fil);
                 } else {
                     $file = $book->file;
                 }

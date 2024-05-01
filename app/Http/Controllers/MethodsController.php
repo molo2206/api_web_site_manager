@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Console\Input\Input;
 
 class MethodsController extends Controller
 {
@@ -56,8 +53,6 @@ class MethodsController extends Controller
             $profileImage->move(public_path().$destination, $profileImageSaveAsName);
             return env('APP_URL') . $destination . $profileImageSaveAsName;
         }
-
-
     }
 
     public static function removeImage($field, $destination)
