@@ -61,8 +61,7 @@ class BlogsController extends Controller
             "author" => "required",
             "description" => "required",
             "documentation" => "required",
-            "image" => "required|dimensions:min_width=850,min_height=550, max_width=950, max_height=650"
-        ], ["image.dimensions" => "Invalid image sizes"]);
+            "image" => "required"]);
         if (Auth::user()->checkPermission('Blogs', 'create')) {
             $image = MethodsController::uploadImageUrl($request->image, "/uploads/blogs/");
             $data = [

@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommuniqueController;
 use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DonationController;
@@ -13,13 +14,17 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\LanguesController;
 use App\Http\Controllers\LivresController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\OffreController;
 use App\Http\Controllers\permissionController;
+use App\Http\Controllers\ProjetController;
+use App\Http\Controllers\RapportController;
 use App\Http\Controllers\roleController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TestimonialsController;
 use App\Http\Controllers\useController;
+use App\Models\Projets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -120,13 +125,42 @@ Route::group(['middleware' => ['localization']], function () {
         Route::delete('/blogs/{id}', [TeamController::class, 'destroy']);
 
         //Bulletins
-        Route::post('/bulletins',[BulletinController::class, 'store']);
-        Route::get('/bulletins',[BulletinController::class, 'index']);
+        Route::post('/bulletins', [BulletinController::class, 'store']);
+        Route::get('/bulletins', [BulletinController::class, 'index']);
         Route::get('/bulletins/{id}', [BulletinController::class, 'edit']);
         Route::post('/bulletins/{id}', [BulletinController::class, 'update']);
         Route::put('/bulletins/{id}', [BulletinController::class, 'status']);
         Route::delete('/bulletins/{id}', [BulletinController::class, 'destroy']);
+        //
+        Route::post('/offres', [OffreController::class, 'store']);
+        Route::get('/offres', [OffreController::class, 'index']);
+        Route::get('/offres/{id}', [OffreController::class, 'edit']);
+        Route::post('/offres/{id}', [OffreController::class, 'update']);
+        Route::put('/offres/{id}', [OffreController::class, 'status']);
+        Route::delete('/offres/{id}', [OffreController::class, 'destroy']);
 
+        //Rapports
+        Route::post('/rapports', [RapportController::class, 'store']);
+        Route::get('/rapports', [RapportController::class, 'index']);
+        Route::get('/rapports/{id}', [RapportController::class, 'edit']);
+        Route::post('/rapports/{id}', [RapportController::class, 'update']);
+        Route::put('/rapports/{id}', [RapportController::class, 'status']);
+        Route::delete('/rapports/{id}', [RapportController::class, 'destroy']);
+
+        //Communiques
+        Route::post('/communiques', [CommuniqueController::class, 'store']);
+        Route::get('/communiques', [RapportController::class, 'index']);
+        Route::get('/communiques/{id}', [RapportController::class, 'edit']);
+        Route::post('/communiques/{id}', [RapportController::class, 'update']);
+        Route::put('/communiques/{id}', [RapportController::class, 'status']);
+        Route::delete('/communiques/{id}', [RapportController::class, 'destroy']);
+        //Projets
+        Route::post('/projets', [ProjetController::class, 'store']);
+        Route::get('/projets', [RapportController::class, 'index']);
+        Route::get('/projets/{id}', [RapportController::class, 'edit']);
+        Route::post('/projets/{id}', [RapportController::class, 'update']);
+        Route::put('/projets/{id}', [RapportController::class, 'status']);
+        Route::delete('/projets/{id}', [RapportController::class, 'destroy']);
         //team
 
         Route::get('/team', [TeamController::class, 'index']);
@@ -191,6 +225,8 @@ Route::group(['middleware' => ['localization']], function () {
     Route::get('/country/public/list', [CountriesController::class, 'publicList']);
     Route::get('/settings', [SettingsController::class, 'index']);
     Route::get('/public/adresses', [AdressesController::class, 'getAdresse']);
+    Route::get('/public/blogs', [BlogsController::class, 'getBlogs']);
+    Route::get('/public/bulletins', [BulletinController::class, 'getBulletins']);
     Route::get('/public/events', [EventController::class, 'getEvents']);
     Route::get('/public/services', [ServicesController::class, 'getServices']);
     Route::get('/public/{service}/services', [ServicesController::class, 'getServicesById']);
@@ -204,3 +240,4 @@ Route::group(['middleware' => ['localization']], function () {
     Route::post('/donate', [DonationController::class, 'store']);
     Route::post('/contact', [SettingsController::class, 'contact']);
 });
+

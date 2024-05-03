@@ -40,7 +40,7 @@ class LivresController extends Controller
                 "price" => "nullable"
             ]);
             $image = MethodsController::uploadImageUrl($request->image, '/uploads/livres/');
-            $file = MethodsController::uploadDoc($request, $request->title, '/uploads/doc/',$request->file);
+            $file = MethodsController::uploadDoc($request, $request->title, '/uploads/doc/',"file");
             $data = Livres::create([
                 "title" => $request->title,
                 "description" => $request->description,

@@ -25,7 +25,7 @@ class BulletinController extends Controller
         }
     }
 
-    public function getBlogs()
+    public function getBulletins()
     {
         return response()->json([
             "data" => Bulletins::with('author')->where('deleted', 0)->where('status', 1)->get()
@@ -45,7 +45,7 @@ class BulletinController extends Controller
             "image" => "required|dimensions:min_width=850,min_height=550, max_width=950, max_height=650"
         ], ["image.dimensions" => "Invalid image sizes"]);
         if (Auth::user()->checkPermission('Bulletins', 'create')) {
-            $designation_fil = mt_rand(1, 9999);
+            $designation_fil = mt_rand(1, 99999999);
             $image = MethodsController::uploadImageUrl($request->image, "/uploads/bulletins/");
             $file = MethodsController::uploadDoc($request, $designation_fil, '/uploads/doc/bulletins/', "file");
             $data = [
