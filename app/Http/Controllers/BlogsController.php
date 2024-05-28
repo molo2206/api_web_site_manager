@@ -16,7 +16,7 @@ class BlogsController extends Controller
     {
         if (Auth::user()->checkPermission('Blogs', 'read')) {
             return response()->json([
-                "data" => Blogs::with('category','author')->where('deleted', 0)->get()
+                "data" => Blogs::with('category', 'author')->where('deleted', 0)->get()
             ], 200);
         } else {
             return response()->json([
@@ -41,14 +41,25 @@ class BlogsController extends Controller
     public function getBlogs()
     {
         return response()->json([
-            "data" => Blogs::with('category','author')->where('deleted', 0)->where('status', 1)->get()
+            "data" => Blogs::with('category', 'author')->where('deleted', 0)->where('status', 0)->get()
         ], 200);
     }
+
+    public function DetailBlogs($id)
+    {
+        $event = Blogs::with('category')->where('deleted', 0)->find($id);
+        if ($event) {
+            return response()->json([
+                "data" => $event
+            ], 200);
+        }
+    }
+
     public function getBlogsCategory($category)
     {
         $catego = Category::where('deleted', 0)->find($category);
         return response()->json([
-            "data" => $catego->blogs()->with('category','author')->where('deleted', 0)->where('status', 1)->get()
+            "data" => $catego->blogs()->with('category', 'author')->where('deleted', 0)->where('status', 1)->get()
         ], 200);
     }
 
@@ -61,7 +72,8 @@ class BlogsController extends Controller
             "author" => "required",
             "description" => "required",
             "documentation" => "required",
-            "image" => "required"]);
+            "image" => "required"
+        ]);
         if (Auth::user()->checkPermission('Blogs', 'create')) {
             $image = MethodsController::uploadImageUrl($request->image, "/uploads/blogs/");
             $data = [
@@ -109,7 +121,7 @@ class BlogsController extends Controller
             } else {
                 return response()->json([
                     "message" => trans('messages.idNotFound')
-                ],404);
+                ], 404);
             }
         } else {
             return response()->json([

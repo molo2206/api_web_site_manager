@@ -17,6 +17,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\permissionController;
 use App\Http\Controllers\ProjetController;
+use App\Http\Controllers\PushNotification;
 use App\Http\Controllers\RapportController;
 use App\Http\Controllers\roleController;
 use App\Http\Controllers\ServicesController;
@@ -218,6 +219,7 @@ Route::group(['middleware' => ['localization']], function () {
         Route::get('/all-travel-requests', [AskForController::class, 'allTravel']);
         Route::get('/demande/{id}', [AskForController::class, 'oneRequest']);
     });
+
     Route::post('/auth/get-link', [AuthController::class, '_getLink']);
     Route::post('/auth/check-link/{token}', [AuthController::class, '_checkLink']);
     Route::post('/auth/login', [AuthController::class, '_login']);
@@ -226,6 +228,7 @@ Route::group(['middleware' => ['localization']], function () {
     Route::get('/settings', [SettingsController::class, 'index']);
     Route::get('/public/adresses', [AdressesController::class, 'getAdresse']);
     Route::get('/public/blogs', [BlogsController::class, 'getBlogs']);
+    Route::get('/public/blogs/detail/{id}', [BlogsController::class, 'DetailBlogs']);
     Route::get('/public/bulletins', [BulletinController::class, 'getBulletins']);
     Route::get('/public/events', [EventController::class, 'getEvents']);
     Route::get('/public/services', [ServicesController::class, 'getServices']);
@@ -239,5 +242,7 @@ Route::group(['middleware' => ['localization']], function () {
     Route::get('/media/{type}', [MediaController::class, 'index']);
     Route::post('/donate', [DonationController::class, 'store']);
     Route::post('/contact', [SettingsController::class, 'contact']);
-});
+    Route::get('/public/livre', [LivresController::class, 'getBooks']);
 
+    // Route::post('/push', [PushNotification::class, 'sendPushNotification']);
+});
