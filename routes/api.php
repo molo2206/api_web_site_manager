@@ -122,22 +122,22 @@ Route::group(['middleware' => ['localization']], function () {
         Route::post('/blogs', [BlogsController::class, 'store']);
         Route::get('/blogs/{id}', [BlogsController::class, 'edit']);
         Route::post('/blogs/{id}', [BlogsController::class, 'update']);
-        Route::put('/blogs/{id}', [TeamController::class, 'status']);
-        Route::delete('/blogs/{id}', [TeamController::class, 'destroy']);
+        Route::post('/blogs/{id}', [BlogsController::class, 'status']);
+        Route::delete('/blogs/{id}', [BlogsController::class, 'destroy']);
 
         //Bulletins
         Route::post('/bulletins', [BulletinController::class, 'store']);
         Route::get('/bulletins', [BulletinController::class, 'index']);
         Route::get('/bulletins/{id}', [BulletinController::class, 'edit']);
-        Route::post('/bulletins/{id}', [BulletinController::class, 'update']);
-        Route::put('/bulletins/{id}', [BulletinController::class, 'status']);
+        Route::post('/bulletin/{id}', [BulletinController::class, 'update']);
+        Route::post('/bulletins/{id}', [BulletinController::class, 'status']);
         Route::delete('/bulletins/{id}', [BulletinController::class, 'destroy']);
         //
         Route::post('/offres', [OffreController::class, 'store']);
         Route::get('/offres', [OffreController::class, 'index']);
-        Route::get('/offres/{id}', [OffreController::class, 'edit']);
-        Route::post('/offres/{id}', [OffreController::class, 'update']);
-        Route::put('/offres/{id}', [OffreController::class, 'status']);
+        Route::post('/offres/{id}', [OffreController::class, 'edit']);
+        Route::post('/offre/{id}', [OffreController::class, 'update']);
+        Route::post('/offres/{id}', [OffreController::class, 'status']);
         Route::delete('/offres/{id}', [OffreController::class, 'destroy']);
 
         //Rapports
@@ -228,8 +228,11 @@ Route::group(['middleware' => ['localization']], function () {
     Route::get('/settings', [SettingsController::class, 'index']);
     Route::get('/public/adresses', [AdressesController::class, 'getAdresse']);
     Route::get('/public/blogs', [BlogsController::class, 'getBlogs']);
+    Route::get('/public/bloghome', [BlogsController::class,'getBlogsHome']);
     Route::get('/public/blogs/detail/{id}', [BlogsController::class, 'DetailBlogs']);
     Route::get('/public/bulletins', [BulletinController::class, 'getBulletins']);
+    Route::get('/public/bulletinhome', [BulletinController::class,'getBulletinHome']);
+    Route::get('/public/bulletins/detail/{id}', [BulletinController::class, 'DetailBulletins']);
     Route::get('/public/events', [EventController::class, 'getEvents']);
     Route::get('/public/services', [ServicesController::class, 'getServices']);
     Route::get('/public/{service}/services', [ServicesController::class, 'getServicesById']);

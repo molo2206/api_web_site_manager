@@ -35,7 +35,7 @@ class OffreController extends Controller
             "description" => "required",
             "startdate" => "required",
             "enddate" => "required",
-            "file" => "nullable",
+            "file" => "required",
         ]);
         if (Auth::user()->checkPermission('Offres', 'create')) {
             $author = Auth::user();
@@ -93,7 +93,6 @@ class OffreController extends Controller
             "description" => "required",
             "startdate" => "required",
             "enddate" => "required",
-            "file" => "nullable",
         ]);
         if (Auth::user()->checkPermission('Offres', 'update')) {
             $author = Auth::user();
@@ -102,13 +101,13 @@ class OffreController extends Controller
                 if ($request->file) {
                     $designation_fil = mt_rand(1, 99999999);
                     MethodsController::removeImageUrl($offres->file);
-                    $file = MethodsController::uploadDoc($request, $designation_fil, '/uploads/doc/', "file");
+                    $file = MethodsController::uploadDoc($request, $designation_fil, '/uploads/doc/offres/', "file");
                 } else {
                     $file = $offres->file;
                 }
                 $data = [
                     "author" => $author->id,
-                    "file" => $file,
+                    "file" => $file ? $file : $offres->file,
                     "place" => $request->place,
                     'title' => $request->title,
                     "description" => $request->description,
@@ -137,9 +136,8 @@ class OffreController extends Controller
         if (Auth::user()->checkPermission('Offres', 'delete')) {
             $offres = Offres::where('deleted', 0)->find($id);
             if ($offres) {
-                $offres->update([
-                    "deleted" => 1
-                ]);
+                $offres->deleted = 1;
+                $offres->update();
                 return response()->json([
                     "message" => trans('deleted')
                 ], 200);
@@ -163,9 +161,8 @@ class OffreController extends Controller
             ]);
             $offres = Offres::where('deleted', 0)->find($id);
             if ($offres) {
-                $offres->update([
-                    "status" => $request->status
-                ]);
+                $offres->status =$request->status;
+                $offres->update();
                 return response()->json([
                     "message" => trans('statusChange')
                 ], 200);

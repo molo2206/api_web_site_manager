@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 class Blogs extends Model
 {
     use HasFactory, HasUuids, Translatable;
-    protected $fillable = ['category_id',"publication_date","image","author"];
+    protected $fillable = ['category_id',"publication_date","image","author","status","deleted"];
     public $translatedAttributes = ["title","description","documentation"];
 
     public function category()

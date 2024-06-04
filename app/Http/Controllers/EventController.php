@@ -156,7 +156,7 @@ class EventController extends Controller
 
                 if ($request->image) {
                     MethodsController::removeImageUrl($event->image);
-                    $image = MethodsController::uploadImageUrl($request->image, "/uploads/events/");
+                    $image = MethodsController::uploadImageUrl($request->image,"/uploads/events/");
                 } else {
                     $image = $event->image;
                 }

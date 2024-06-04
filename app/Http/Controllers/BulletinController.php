@@ -16,7 +16,7 @@ class BulletinController extends Controller
     {
         if (Auth::user()->checkPermission('Blogs', 'read')) {
             return response()->json([
-                "data" => Bulletins::with('author')->where('deleted', 0)->get()
+                "data" => Bulletins::with('author')->where('deleted', 0)->orderBy('updated_at', 'DESC')->get()
             ], 200);
         } else {
             return response()->json([
@@ -28,8 +28,24 @@ class BulletinController extends Controller
     public function getBulletins()
     {
         return response()->json([
-            "data" => Bulletins::with('author')->where('deleted', 0)->where('status', 1)->get()
+            "data" => Bulletins::with('author')->where('deleted', 0)->orderBy('updated_at', 'DESC')->where('status', 1)->get()
         ], 200);
+    }
+    public function getBulletinHome()
+    {
+        return response()->json([
+            "data" => Bulletins::with('author')->orderBy('updated_at', 'DESC')->where('deleted', 0)
+                ->where('status', 1)->take(4)->get()
+        ], 200);
+    }
+    public function DetailBulletins($id)
+    {
+        $bulletin = Bulletins::with('author')->where('deleted', 0)->find($id);
+        if ($bulletin) {
+            return response()->json([
+                "data" => $bulletin
+            ], 200);
+        }
     }
     public function store(Request $request)
     {
@@ -41,9 +57,8 @@ class BulletinController extends Controller
             "year" => "required",
             "month" => "required",
             "created" => "required",
-            "file" => "nullable",
-            "image" => "required|dimensions:min_width=850,min_height=550, max_width=950, max_height=650"
-        ], ["image.dimensions" => "Invalid image sizes"]);
+            "image" => "required"
+        ]);
         if (Auth::user()->checkPermission('Bulletins', 'create')) {
             $designation_fil = mt_rand(1, 99999999);
             $image = MethodsController::uploadImageUrl($request->image, "/uploads/bulletins/");
@@ -72,17 +87,6 @@ class BulletinController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    // public function show(Event $event)
-    // {
-    //     //
-    // }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         if (Auth::user()->checkPermission('Bulletins', 'read')) {
@@ -116,20 +120,26 @@ class BulletinController extends Controller
             "year" => "required",
             "month" => "required",
             "created" => "required",
-            "image" => "required|dimensions:min_width=850,min_height=550, max_width=950, max_height=650"
-        ], ["image.dimensions" => "Invalid image sizes"]);
+        ]);
         if (Auth::user()->checkPermission('Bulletins', 'update')) {
-            $blogs = Bulletins::where('deleted', 0)->find($id);
-            if ($blogs) {
+            $bulletin = Bulletins::where('deleted', 0)->find($id);
+            if ($bulletin) {
                 if ($request->image) {
-                    MethodsController::removeImageUrl($blogs->image);
+                    MethodsController::removeImageUrl($bulletin->image);
                     $image = MethodsController::uploadImageUrl($request->image, "/uploads/bulletins/");
                 } else {
-                    $image = $blogs->image;
+                    $image = $bulletin->image;
+                }
+                if($request->file){
+                    $designation_fil = mt_rand(1, 99999999);
+                     $file = MethodsController::uploadDoc($request, $designation_fil, '/uploads/doc/bulletins/', "file");
+                }else{
+                    $file= $bulletin->file;
                 }
                 $data = [
                     "author" => $request->author,
                     "image" => $image,
+                    "file" => $file,
                     $request->locale => [
                         'title' => $request->title,
                         "description" => $request->description,
@@ -138,9 +148,9 @@ class BulletinController extends Controller
                         "created" => $request->created,
                     ]
                 ];
-                $blogs->update($data);
+                $bulletin->update($data);
                 return response()->json([
-                    "data" => $blogs,
+                    "data" => $bulletin,
                     "message" => trans('updated')
                 ], 200);
             } else {

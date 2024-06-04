@@ -16,7 +16,9 @@ class BlogsController extends Controller
     {
         if (Auth::user()->checkPermission('Blogs', 'read')) {
             return response()->json([
-                "data" => Blogs::with('category', 'author')->where('deleted', 0)->get()
+                "data" => Blogs::with('category', 'author')
+                    ->orderBy('updated_at', 'DESC')
+                    ->where('deleted', 0)->get()
             ], 200);
         } else {
             return response()->json([
@@ -24,7 +26,7 @@ class BlogsController extends Controller
             ], 422);
         }
     }
-    public function getEventsById($event)
+    public function getBlogById($event)
     {
         $blogs = Blogs::with(['category'])->find($event);
         if ($blogs) {
@@ -33,7 +35,7 @@ class BlogsController extends Controller
             ], 200);
         } else {
             return response()->json([
-                "message" => trans('messages.idNotFound')
+                "message" => 'idNotFound'
             ], 404);
         }
     }
@@ -41,13 +43,23 @@ class BlogsController extends Controller
     public function getBlogs()
     {
         return response()->json([
-            "data" => Blogs::with('category', 'author')->where('deleted', 0)->where('status', 0)->get()
+            "data" => Blogs::with('category', 'author')->orderBy('updated_at', 'DESC')
+                ->where('deleted', 0)->where('status', 1)->get()
+        ], 200);
+    }
+
+    public function getBlogsHome()
+    {
+        return response()->json([
+            "data" => Blogs::with('category', 'author')
+                ->orderBy('updated_at', 'DESC')
+                ->where('deleted', 0)->where('status', 1)->take(4)->get()
         ], 200);
     }
 
     public function DetailBlogs($id)
     {
-        $event = Blogs::with('category')->where('deleted', 0)->find($id);
+        $event = Blogs::with('category')->where('deleted', 0)->where('status', 1)->find($id);
         if ($event) {
             return response()->json([
                 "data" => $event
@@ -59,7 +71,7 @@ class BlogsController extends Controller
     {
         $catego = Category::where('deleted', 0)->find($category);
         return response()->json([
-            "data" => $catego->blogs()->with('category', 'author')->where('deleted', 0)->where('status', 1)->get()
+            "data" => $catego->blogs()->with('category', 'author')->orderBy('updated_at', 'DESC')->where('deleted', 0)->where('status', 1)->get()
         ], 200);
     }
 
@@ -72,8 +84,8 @@ class BlogsController extends Controller
             "author" => "required",
             "description" => "required",
             "documentation" => "required",
-            "image" => "required"
-        ]);
+            "image" => "required"]);
+
         if (Auth::user()->checkPermission('Blogs', 'create')) {
             $image = MethodsController::uploadImageUrl($request->image, "/uploads/blogs/");
             $data = [
@@ -141,8 +153,8 @@ class BlogsController extends Controller
             "locale" => "required",
             "author" => "required",
             "description" => "required",
-            "image" => "required|dimensions:min_width=850,min_height=550, max_width=950, max_height=650"
-        ], ["image.dimensions" => "Invalid image sizes"]);
+            "documentation" => "required",
+        ]);
         if (Auth::user()->checkPermission('Blogs', 'update')) {
             $blogs = Blogs::where('deleted', 0)->find($id);
             if ($blogs) {
@@ -156,10 +168,11 @@ class BlogsController extends Controller
                     "category_id" => $request->category_id,
                     "publication_date" => $request->publication_date,
                     "author" => $request->author,
-                    "image" => $image,
+                    "image" => $image ? $image : $blogs->image,
                     $request->locale => [
                         'title' => $request->title,
-                        "description" => $request->description
+                        "description" => $request->description,
+                        "documentation" => $request->documentation
                     ]
                 ];
                 $blogs->update($data);
@@ -186,7 +199,7 @@ class BlogsController extends Controller
      */
     public function destroy($id)
     {
-        if (Auth::user()->checkPermission('Events', 'delete')) {
+        if (Auth::user()->checkPermission('Blogs', 'delete')) {
             $blogs = Blogs::where('deleted', 0)->find($id);
             if ($blogs) {
                 $blogs->update([
@@ -209,7 +222,7 @@ class BlogsController extends Controller
 
     public function status(Request $request, $id)
     {
-        if (Auth::user()->checkPermission('Events', 'update')) {
+        if (Auth::user()->checkPermission('Blogs', 'update')) {
             $request->validate([
                 "status" => 'required'
             ]);
@@ -219,16 +232,16 @@ class BlogsController extends Controller
                     "status" => $request->status
                 ]);
                 return response()->json([
-                    "message" => trans('messages.statusChange')
+                    "message" => 'Status updated successfully'
                 ], 200);
             } else {
                 return response()->json([
-                    "message" => trans('messages.idNotFound')
+                    "message" => 'Id not found'
                 ]);
             }
         } else {
             return response()->json([
-                "message" => trans('messages.notAuthorized')
+                "message" => 'Not Authorized'
             ], 422);
         }
     }
