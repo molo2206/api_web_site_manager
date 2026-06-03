@@ -28,7 +28,6 @@ use App\Http\Controllers\useController;
 use App\Models\Projets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
